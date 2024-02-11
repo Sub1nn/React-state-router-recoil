@@ -54,16 +54,15 @@ const App = () => {
   }
 
   return (
-    <div>
-      {jpsData.map((item) => (
-        <Data key={item.id} item={item} />
-      ))}
-    </div>
+    <>
+      {jpsData.map((item) => {
+        return <Data key={item.id} item={item} />;
+      })}
+    </>
   );
 };
 
 const Data = ({ item }) => {
-  console.log(item);
   return (
     <>
       <p>{JSON.stringify(item)}</p>
