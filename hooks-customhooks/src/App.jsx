@@ -32,34 +32,41 @@ import React, { useEffect, useState } from "react";
 
 const useTodos = () => {
   const [jpsData, setJpsData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/todos")
       .then((response) => response.json())
       .then((data) => {
         setJpsData(data);
+        setLoading(false);
       });
   }, []);
 
-  return jpsData;
+  return { jpsData, loading };
 };
 
 const App = () => {
-  const jpsData = useTodos();
+  const { jpsData, loading } = useTodos();
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
-      <Data jpsData={jpsData} />
+      {jpsData.map((item) => (
+        <Data key={item.id} item={item} />
+      ))}
     </div>
   );
 };
 
-const Data = ({ jpsData }) => {
+const Data = ({ item }) => {
+  console.log(item);
   return (
     <>
-      {jpsData.map((item) => {
-        return <p key={item.id}>{JSON.stringify(item)}</p>;
-      })}
+      <p>{JSON.stringify(item)}</p>
     </>
   );
 };
